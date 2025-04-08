@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "681082194820",
+    "project_id": "centralcoffee-d826e",
+    "storage_bucket": "centralcoffee-d826e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:681082194820:android:d9528bc05f7765ed782bd1",
+        "android_client_info": {
+          "package_name": "com.oak3dstudio.centralcoffee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "681082194820-2t2ntrs31f5l8jerlcdal8b061q2mec6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYz93wXe1GDafvoUNJmMF4F7yvtErgvpk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "681082194820-2t2ntrs31f5l8jerlcdal8b061q2mec6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
