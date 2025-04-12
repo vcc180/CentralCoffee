@@ -1,27 +1,52 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { useEffect, useState} from 'react';
+import { auth } from './firebaseConfig';
+import { FirebaseAuthTypes } from '@react-native-firebase/auth';
+
 
 import { useColorScheme } from '@/hooks/useColorScheme';
+import 'react-native-reanimated';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+
+  const router = useRouter();
+  const segments = useSegments();
+
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
   useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(_user => {
+      setUser(_user);
+    });
     if (loaded) {
       SplashScreen.hideAsync();
     }
+
+    return unsubscribe;
   }, [loaded]);
+
+  
+  useEffect(()=>{
+    const inAuthGroup = segments[0] === '(tabs)';
+
+    if(user && !inAuthGroup){
+      console.log('Logado');
+      router.replace('/(tabs)/index');
+    }else if(!user && inAuthGroup){
+      router.replace('/(auth)/signIn');
+    }
+  },[user])
 
   if (!loaded) {
     return null;
