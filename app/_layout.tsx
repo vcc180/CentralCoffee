@@ -39,12 +39,11 @@ export default function RootLayout() {
   
   useEffect(()=>{
     const inAuthGroup = segments[0] === '(tabs)';
-
+    
     if(user && !inAuthGroup){
-      console.log('Logado');
-      router.replace('/(tabs)/index');
+      router.replace("(tabs)");
     }else if(!user && inAuthGroup){
-      router.replace('/(auth)/signIn');
+      router.replace("/(auth)/signIn");
     }
   },[user])
 
@@ -55,6 +54,7 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
+        <Stack.Screen name="(auth)/signIn" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
