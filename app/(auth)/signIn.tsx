@@ -6,46 +6,67 @@ import { ThemedText } from "@/components/ThemedText";
 import { useRouter, Link } from 'expo-router';
 import { signInWithEmailAndPassword } from '@react-native-firebase/auth';
 import { auth } from "@/app/firebaseConfig";
+import { useForm, Controller } from "react-hook-form";
 
 
 export default function SignIn() {
     const router = useRouter();
+    const { control, handleSubmit, formState: { errors } } = useForm({
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    
+    })
 
-    const handleLogin = async () => {
-        signInWithEmailAndPassword(auth, email, password).then(() => {
+    const handleLogin = async (data) => {
+        
+        signInWithEmailAndPassword(auth, data.username, data.password).then(() => {
+            console.log(data);
             router.replace('/(tabs)/');
         }).catch(error => {
             console.log(error);
         });
     }
+
+
     return (
         <ThemeProvider>
             <ThemedView style={styles.content}>
-                <ThemedText style={{ height: 50, paddingTop: 150, backgroundColor: '#ebddca', paddingBottom: 150, }}>
-                    <Image style={styles.logo} source={require('@/assets/images/LogoCentralCoffee.png')} />
-                </ThemedText>
+                <Image style={styles.logo} source={require('@/assets/images/LogoCentralCoffee.png')} />
                 <ThemedView style={styles.form}>
-                    <TextInput style={styles.inputText} name="email" placeholder="E-mail" onChangeText={setEmail} />
-                    <TextInput style={styles.inputText} secureTextEntry name="password" placeholder="Password" passwordRules='*' onChangeText={setPassword} />
-                    
-                    <ThemedText style={{ marginBottom: 15}}>Esqueci minha senha.</ThemedText>
-                    
-                    <Button title="Login" onPress={handleLogin} color={"#432614"} />
+                    <ThemedText style={styles.label}>E-mail</ThemedText>
+                    <Controller
+                        control={control}
+                        name="username"
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                style={[styles.inputText]}
+                                onChangeText={onChange}
+                                onBlur={onBlur}
+                                value={value}
+                                placeholder=""
+                            />
+                        )}
+                    />
 
-                    <ThemedText style={{ marginTop: 15, textAlign: 'center' }}>Ou faça login com</ThemedText>
-                    <ThemedView style={{ flexDirection: 'row', backgroundColor: 'none', marginTop: 10, alignSelf: 'center' }}>
-                        {/* <GoogleLoginButton /> */}
-                        {/* <Pressable style={styles.bLogins}><IconFontAwesome name={"facebook"} /></Pressable> */}
-                    </ThemedView>
+                    <ThemedText style={styles.label}>Senha</ThemedText>
+                    <Controller
+                        control={control}
+                        name="password"
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                style={[styles.inputText]}
+                                onChangeText={onChange}
+                                onBlur={onBlur}
+                                value={value}
+                                placeholder=""
+                            />
+                        )}
+                    />
+                    <ThemedText style={styles.labelRecuperar}>Recuperar senha.</ThemedText>
+                    <Button title="Logar" color={'#432614'} onPress={handleSubmit(handleLogin)}/>
                 </ThemedView>
 
-                <ThemedView style={{ backgroundColor: '#432614', flex: 1 }}>
-                    <ThemedText style={{ color: 'white', alignSelf: 'center', margin: 'auto', padding: 20,textAlign:'center' }}>Ainda não tem uma conta no Central Coffee? <Link style={{ fontWeight: 'bold',textDecorationLine: 'underline' }} href="(Pages)/SighUp">Faça seu cadastro!</Link></ThemedText>
-                </ThemedView>
+            </ThemedView>
+            <ThemedView style={{ backgroundColor: '#432614', height:100 }}>
+                <ThemedText style={{ color: 'white', alignSelf: 'center', margin: 'auto', padding: 20, textAlign: 'center' }}>Ainda não tem uma conta no Central Coffee? <Link style={{ fontWeight: 'bold', textDecorationLine: 'underline' }} href="(Pages)/SighUp">Faça seu cadastro!</Link></ThemedText>
             </ThemedView>
         </ThemeProvider>
     );
@@ -63,22 +84,27 @@ const styles = StyleSheet.create({
     inputText: {
         color: '#808080',
         backgroundColor: "white",
-        borderColor: "#CCC",
-        marginBottom: 10,
+        borderColor: "#432614",
+
         borderRadius: 5,
-        padding: 12,
+        padding: 10,
+        height: 40,
+        borderWidth: 1.5,
+    },
+    label: {
+        color: '#432614',
+        marginTop: 15,
+    },
+    labelRecuperar: {
+        color: '#432614',
+        marginBottom: 15,
     },
     logo: {
         width: 250,
         height: 87,
         alignSelf: "center",
+        marginTop: 100,
+        marginBottom: 10,
     },
-    bSighUp: {
-        backgroundColor: '#ebddca',
-    },
-    bLogins: {
-        padding: 15,
-        backgroundColor: 'white',
-        margin: 5,
-    }
+
 })
