@@ -29,15 +29,11 @@ export default function RootLayout() {
     const unsubscribe = auth.onAuthStateChanged(_user => {
       setUser(_user);
     });
+
     if (loaded) {
       SplashScreen.hideAsync();
     }
 
-    return unsubscribe;
-  }, [loaded]);
-
-  
-  useEffect(()=>{
     const inAuthGroup = segments[0] === '(tabs)';
     
     if(user && !inAuthGroup){
@@ -45,7 +41,10 @@ export default function RootLayout() {
     }else if(!user && inAuthGroup){
       router.replace("/(auth)/signIn");
     }
-  },[user])
+
+    return unsubscribe;
+  }, [loaded, user]);
+
 
   if (!loaded) {
     return null;
@@ -55,6 +54,7 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(auth)/signIn" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)/recover" options={{ headerShown: true, title: 'Recuperar Senha', headerTintColor: 'white', headerStyle:{backgroundColor: '#432614'}, statusBarStyle:'dark' }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
