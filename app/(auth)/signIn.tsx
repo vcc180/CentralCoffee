@@ -7,24 +7,28 @@ import { useRouter, Link } from 'expo-router';
 import { signInWithEmailAndPassword } from '@react-native-firebase/auth';
 import { auth } from "@/app/firebaseConfig";
 import { useForm, Controller } from "react-hook-form";
+import { FirebaseMessage } from "@/components/FirebaseMessage";
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
+const schema = yup.object({
+    username: yup.string().email('E-mail inválido.').required("Informe seu e-mail."),
+    password: yup.string().min(6, "A senha deve ter pelo menos 6 digitos.").required("Informe sua senha.")
+})
 
 export default function SignIn() {
     const router = useRouter();
     const { control, handleSubmit, formState: { errors } } = useForm({
-
+        resolver: yupResolver(schema)
     })
 
     const handleLogin = async (data) => {
-        
         signInWithEmailAndPassword(auth, data.username, data.password).then(() => {
-            console.log(data);
             router.replace('/(tabs)/');
         }).catch(error => {
-            console.log(error);
+            alert(FirebaseMessage(error.code));
         });
     }
-
 
     return (
         <ThemeProvider>
@@ -37,7 +41,12 @@ export default function SignIn() {
                         name="username"
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
-                                style={[styles.inputText]}
+                                style={[
+                                    styles.inputText,
+                                    {
+                                        borderColor: errors.username && '#ff375b',
+                                    }
+                                ]}
                                 onChangeText={onChange}
                                 onBlur={onBlur}
                                 value={value}
@@ -45,7 +54,7 @@ export default function SignIn() {
                             />
                         )}
                     />
-
+                    {errors.username && <ThemedText style={styles.labelError}>{errors.username.message}</ThemedText>}
                     <ThemedText style={styles.label}>Senha</ThemedText>
                     <Controller
                         control={control}
@@ -61,12 +70,13 @@ export default function SignIn() {
                             />
                         )}
                     />
-                    <ThemedText style={styles.labelRecuperar}>Recuperar senha.</ThemedText>
+                    {errors.password && <ThemedText style={styles.labelError}>{errors.password.message}</ThemedText>}
+                    <ThemedText style={styles.labelRecuperar}><Link href="(auth)/recover">Recuperar senha.</Link></ThemedText>
                     <Button title="Logar" color={'#432614'} onPress={handleSubmit(handleLogin)}/>
                 </ThemedView>
             </ThemedView>
             <ThemedView style={{ backgroundColor: '#432614', height:100 }}>
-                <ThemedText style={{ color: 'white', alignSelf: 'center', margin: 'auto', padding: 20, textAlign: 'center' }}>Ainda não tem uma conta no Central Coffee? <Link style={{ fontWeight: 'bold', textDecorationLine: 'underline' }} href="(Pages)/SighUp">Faça seu cadastro!</Link></ThemedText>
+                <ThemedText style={{ color: 'white', alignSelf: 'center', margin: 'auto', padding: 20, textAlign: 'center',fontFamily: 'Roboto-Regular', }}>Ainda não tem uma conta no Central Coffee? <Link style={{ fontWeight: 'bold', textDecorationLine: 'underline' }} href="(Pages)/SighUp">Faça seu cadastro!</Link></ThemedText>
             </ThemedView>
         </ThemeProvider>
     );
@@ -80,12 +90,12 @@ const styles = StyleSheet.create({
     form: {
         backgroundColor: "#ebddca",
         padding: 50,
+        fontFamily: 'Roboto',
     },
     inputText: {
         color: '#808080',
         backgroundColor: "white",
         borderColor: "#432614",
-
         borderRadius: 5,
         padding: 10,
         height: 40,
@@ -94,6 +104,9 @@ const styles = StyleSheet.create({
     label: {
         color: '#432614',
         marginTop: 15,
+    },
+    labelError: {
+        color: 'red',
     },
     labelRecuperar: {
         color: '#432614',
