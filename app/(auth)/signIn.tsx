@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { ThemeProvider } from "@react-navigation/native";
 import { ThemedView } from "@/components/ThemedView";
-import { TextInput, StyleSheet, Image, Button, Pressable, Alert } from "react-native";
+import { TextInput, StyleSheet, Image, Button } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { useRouter, Link } from 'expo-router';
 import { signInWithEmailAndPassword } from '@react-native-firebase/auth';
 import { auth } from "@/app/firebaseConfig";
-import { useForm, Controller } from "react-hook-form";
 import { FirebaseMessage } from "@/components/FirebaseMessage";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm, Controller } from "react-hook-form";
 
 const schema = yup.object({
     username: yup.string().email('E-mail inválido.').required("Informe seu e-mail."),
@@ -76,7 +76,7 @@ export default function SignIn() {
                 </ThemedView>
             </ThemedView>
             <ThemedView style={{ backgroundColor: '#432614', height:100 }}>
-                <ThemedText style={{ color: 'white', alignSelf: 'center', margin: 'auto', padding: 20, textAlign: 'center',fontFamily: 'Roboto-Regular', }}>Ainda não tem uma conta no Central Coffee? <Link style={{ fontWeight: 'bold', textDecorationLine: 'underline' }} href="(Pages)/SighUp">Faça seu cadastro!</Link></ThemedText>
+                <ThemedText style={{ color: 'white', alignSelf: 'center', margin: 'auto', padding: 20, textAlign: 'center',fontFamily: 'Roboto-Regular', }}>Ainda não tem uma conta no Central Coffee? <Link style={{ fontWeight: 'bold', textDecorationLine: 'underline' }} href="/(auth)/signUp">Faça seu cadastro!</Link></ThemedText>
             </ThemedView>
         </ThemeProvider>
     );
