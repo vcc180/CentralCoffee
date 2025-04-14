@@ -9,7 +9,7 @@ import { auth } from '../firebaseConfig';
 
 
 export default function HomeScreen() {
-
+  
   const F_Logout = ()=>{
     auth.signOut();
   }
