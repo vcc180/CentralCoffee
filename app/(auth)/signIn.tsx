@@ -57,13 +57,13 @@ export default function SignIn() {
                                 onBlur={onBlur}
                                 value={value}
                                 placeholder=""
+                                secureTextEntry={true}
                             />
                         )}
                     />
                     <ThemedText style={styles.labelRecuperar}>Recuperar senha.</ThemedText>
                     <Button title="Logar" color={'#432614'} onPress={handleSubmit(handleLogin)}/>
                 </ThemedView>
-
             </ThemedView>
             <ThemedView style={{ backgroundColor: '#432614', height:100 }}>
                 <ThemedText style={{ color: 'white', alignSelf: 'center', margin: 'auto', padding: 20, textAlign: 'center' }}>Ainda não tem uma conta no Central Coffee? <Link style={{ fontWeight: 'bold', textDecorationLine: 'underline' }} href="(Pages)/SighUp">Faça seu cadastro!</Link></ThemedText>
