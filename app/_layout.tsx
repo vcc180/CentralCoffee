@@ -59,8 +59,8 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(auth)/signIn" options={{ headerShown: false, statusBarStyle: 'dark' }} />
-        <Stack.Screen name="(auth)/signUp" options={{ headerShown: true, title: 'Cadastre-se', headerTintColor: 'white', headerStyle: { backgroundColor: '#432614' }, statusBarStyle: 'dark', contentStyle: { backgroundColor: "red" } }} />
-        <Stack.Screen name="(auth)/recover" options={{ headerShown: true, title: 'Recuperar Senha', headerTintColor: 'white', headerStyle: { backgroundColor: '#432614' }, statusBarStyle: 'dark' }} />
+        <Stack.Screen name="(auth)/signUp" options={{ headerShown: true, title: 'Cadastre-se', headerTintColor: 'white', headerStyle: { backgroundColor: '#432614' }, statusBarStyle: 'dark', contentStyle: { backgroundColor: "#ebddca" }}} />
+        <Stack.Screen name="(auth)/recover" options={{ headerShown: true, title: 'Recuperar Senha', headerTintColor: 'white', headerStyle: { backgroundColor: '#432614' }, statusBarStyle: 'dark', contentStyle: { backgroundColor: "#ebddca" }}} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
