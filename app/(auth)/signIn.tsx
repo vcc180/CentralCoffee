@@ -88,7 +88,7 @@ export default function SignIn() {
                 </ThemedView>
             </ThemedView>
             <ThemedView style={{ backgroundColor: '#432614', height: 100 }}>
-                <ThemedText style={{ color: 'white', alignSelf: 'center', fontSize: 14, margin: 'auto', padding: 20, textAlign: 'center', fontFamily: 'RobotoRegular' }}>Ainda não tem uma conta no Central Coffee? <Link style={{ fontWeight: 'bold', textDecorationLine: 'underline' }} href="/(auth)/signUp">Faça seu cadastro!</Link></ThemedText>
+                <ThemedText style={{ color: 'white', alignSelf: 'center', fontSize: 14, margin: 'auto', padding: 20, textAlign: 'center', fontFamily: 'RobotoRegular' }}>Ainda não tem uma conta no Central Coffee?{"\n"} <Link style={{ fontWeight: 'bold', textDecorationLine: 'underline' }} href="/(auth)/signUp">Faça seu cadastro!</Link></ThemedText>
             </ThemedView>
         </ThemeProvider>
     );
