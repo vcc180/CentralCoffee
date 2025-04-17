@@ -3,7 +3,7 @@ import { useFonts } from 'expo-font';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { auth } from './firebaseConfig';
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
@@ -33,15 +33,17 @@ export default function RootLayout() {
 
     if (loaded) {
       SplashScreen.hideAsync();
+
+      const inAuthGroup = segments[0] === '(tabs)';
+
+      if (user && !inAuthGroup) {
+        router.replace("(tabs)");
+      } else if (!user && inAuthGroup) {
+        router.replace("/(auth)/signIn");
+      }
     }
 
-    const inAuthGroup = segments[0] === '(tabs)';
-    
-    if(user && !inAuthGroup){
-      router.replace("(tabs)");
-    }else if(!user && inAuthGroup){
-      router.replace("/(auth)/signIn");
-    }
+
 
     return unsubscribe;
   }, [loaded, user]);
@@ -51,12 +53,14 @@ export default function RootLayout() {
     return null;
   }
 
+
+
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="(auth)/signIn" options={{ headerShown: false, statusBarStyle:'dark' }} />
-        <Stack.Screen name="(auth)/signUp" options={{ headerShown: true, title: 'Cadastre-se', headerTintColor: 'white', headerStyle:{backgroundColor: '#432614'}, statusBarStyle:'dark'  }} />
-        <Stack.Screen name="(auth)/recover" options={{ headerShown: true, title: 'Recuperar Senha', headerTintColor: 'white', headerStyle:{backgroundColor: '#432614'}, statusBarStyle:'dark' }} />
+        <Stack.Screen name="(auth)/signIn" options={{ headerShown: false, statusBarStyle: 'dark' }} />
+        <Stack.Screen name="(auth)/signUp" options={{ headerShown: true, title: 'Cadastre-se', headerTintColor: 'white', headerStyle: { backgroundColor: '#432614' }, statusBarStyle: 'dark', contentStyle: { backgroundColor: "red" } }} />
+        <Stack.Screen name="(auth)/recover" options={{ headerShown: true, title: 'Recuperar Senha', headerTintColor: 'white', headerStyle: { backgroundColor: '#432614' }, statusBarStyle: 'dark' }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
