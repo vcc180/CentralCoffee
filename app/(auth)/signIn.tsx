@@ -10,11 +10,15 @@ import { FirebaseMessage } from "@/components/FirebaseMessage";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller } from "react-hook-form";
+import { useFonts } from 'expo-font';
+import { IconAntDesign } from "@/components/ui/IconSymbolAwesome";
 
 const schema = yup.object({
     username: yup.string().email('E-mail inválido.').required("Informe seu e-mail."),
     password: yup.string().min(6, "A senha deve ter pelo menos 6 digitos.").required("Informe sua senha.")
 })
+
+
 
 export default function SignIn() {
     const router = useRouter();
@@ -22,9 +26,10 @@ export default function SignIn() {
         resolver: yupResolver(schema)
     })
 
+
     const handleLogin = async (data) => {
         signInWithEmailAndPassword(auth, data.username, data.password).then(() => {
-            router.replace('/(tabs)/');
+            // router.replace('/(tabs)/');
         }).catch(error => {
             alert(FirebaseMessage(error.code));
         });
@@ -72,11 +77,18 @@ export default function SignIn() {
                     />
                     {errors.password && <ThemedText style={styles.labelError}>{errors.password.message}</ThemedText>}
                     <ThemedText style={styles.labelRecuperar}><Link href="(auth)/recover">Recuperar senha.</Link></ThemedText>
-                    <Button title="Logar" color={'#432614'} onPress={handleSubmit(handleLogin)}/>
+                    <Button title="Logar" color={'#432614'} onPress={handleSubmit(handleLogin)} />
+                </ThemedView>
+                <ThemedView style={{backgroundColor: '', flexDirection: 'column'}}>
+                    <ThemedText style={[styles.label,{textAlign:'center'}]}>Ou faça login com</ThemedText>
+                    <ThemedView style={{backgroundColor: '', flexDirection: 'row',alignItems: 'center', margin: 'auto', marginTop: 15,}}>
+                        <IconAntDesign color={'#432614'} size={26} style={{padding: 5}} name={'google'}/>
+                        <IconAntDesign color={'#432614'} size={26} style={{padding: 5}} name={'instagram'}/>
+                    </ThemedView>
                 </ThemedView>
             </ThemedView>
-            <ThemedView style={{ backgroundColor: '#432614', height:100 }}>
-                <ThemedText style={{ color: 'white', alignSelf: 'center', margin: 'auto', padding: 20, textAlign: 'center',fontFamily: 'Roboto-Regular', }}>Ainda não tem uma conta no Central Coffee? <Link style={{ fontWeight: 'bold', textDecorationLine: 'underline' }} href="/(auth)/signUp">Faça seu cadastro!</Link></ThemedText>
+            <ThemedView style={{ backgroundColor: '#432614', height: 100 }}>
+                <ThemedText style={{ color: 'white', alignSelf: 'center', fontSize: 14, margin: 'auto', padding: 20, textAlign: 'center', fontFamily: 'RobotoRegular' }}>Ainda não tem uma conta no Central Coffee? <Link style={{ fontWeight: 'bold', textDecorationLine: 'underline' }} href="/(auth)/signUp">Faça seu cadastro!</Link></ThemedText>
             </ThemedView>
         </ThemeProvider>
     );
@@ -86,6 +98,7 @@ const styles = StyleSheet.create({
     content: {
         backgroundColor: "#ebddca",
         flex: 1,
+        fontFamily: 'RobotoRegular',
     },
     form: {
         backgroundColor: "#ebddca",
