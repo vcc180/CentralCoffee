@@ -6,6 +6,7 @@ import { ThemedText } from "@/components/ThemedText";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller } from "react-hook-form";
+import { Link } from "expo-router";
 
 const schema = yup.object({
     nome: yup.string().required("Informe seu Nome Completo."),
@@ -114,7 +115,7 @@ export default function SingUp() {
                     <ThemedText style={[styles.label, { marginLeft: 10, }]}>Seu cadastro implica na aceitação dos Termos de Uso e da Política de Privacidade da Central Coffee.</ThemedText>
                 </ThemedView>
                 <Button color={'black'} title="Cadastrar" onPress={handleSubmit(handleSignUp)} />
-                <ThemedText style={{textAlign: 'center', backgroundColor: '', marginTop: 25, color: 'white'}}>Já se cadastrou? Entre agora!</ThemedText>
+                <ThemedText style={{textAlign: 'center', backgroundColor: '', marginTop: 25, color: 'white'}}>Já se cadastrou? <Link style={{fontWeight: 'bold'}} href={"/(auth)/signIn"}>Entre agora!</Link></ThemedText>
             </ThemedView>
         </ThemedView>
     );
