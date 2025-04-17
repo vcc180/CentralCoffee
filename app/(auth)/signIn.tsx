@@ -29,7 +29,7 @@ export default function SignIn() {
 
     const handleLogin = async (data) => {
         signInWithEmailAndPassword(auth, data.username, data.password).then(() => {
-            // router.replace('/(tabs)/');
+            router.replace('/(tabs)/');
         }).catch(error => {
             alert(FirebaseMessage(error.code));
         });
@@ -59,6 +59,7 @@ export default function SignIn() {
                             />
                         )}
                     />
+                    
                     {errors.username && <ThemedText style={styles.labelError}>{errors.username.message}</ThemedText>}
                     <ThemedText style={styles.label}>Senha</ThemedText>
                     <Controller
